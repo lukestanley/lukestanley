@@ -24,14 +24,14 @@
     <div id="loadingIndicator">Loading PDF...</div>
     <canvas id="pdfViewer"></canvas>
     <script>
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
         const params = new URLSearchParams(window.location.search);
         const url = params.get('site');
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
         const hash = window.location.hash;
         const searchString = decodeURIComponent(hash.replace('#:~:text=', '').replace(/\s+/g, ' ').trim());
         const searchRegex = new RegExp(searchString.replace(/\s+/g, '\\s*'), 'i');
         const loadingIndicator = document.getElementById('loadingIndicator');
-        
+
         console.log(`Fetching PDF from: ${proxyUrl}`);
         fetch(proxyUrl)
             .then(response => {
