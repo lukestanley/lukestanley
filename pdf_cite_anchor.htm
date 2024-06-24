@@ -9,27 +9,39 @@
             width: 100%;
             height: 100vh;
         }
+        #loadingIndicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
+    <div id="loadingIndicator">Loading PDF...</div>
     <canvas id="pdfViewer"></canvas>
     <script>
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
         const params = new URLSearchParams(window.location.search);
         const url = params.get('site');
         const hash = window.location.hash;
         const searchString = decodeURIComponent(hash.replace('#:~:text=', '').replace(/\s+/g, ' ').trim());
-        const searchRegex = new RegExp(searchString.replace(/\s+/g, '\\s*'), 'i'); // Regex to match the search string with variable spacing
-
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+        const searchRegex = new RegExp(searchString.replace(/\s+/g, '\\s*'), 'i');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        
         console.log(`Fetching PDF from: ${proxyUrl}`);
         fetch(proxyUrl)
             .then(response => {
-                console.log('Received response from AllOrigins');
+                console.log('Received response from proxy');
+                loadingIndicator.textContent = 'Received response from proxy';
                 return response.json();
             })
             .then(data => {
                 console.log('Parsing response data');
-                // Strip the data URL prefix
+                // Strips the data URL prefix:
                 const base64Data = data.contents.replace(/^data:application\/pdf;base64,/, '');
                 console.log('Base64 data length:', base64Data.length);
                 const binaryString = atob(base64Data);
@@ -51,9 +63,8 @@
 
                 const findTextInPage = pageNum => {
                     return pdf.getPage(pageNum).then(page => {
-                        console.log(`Loading page ${pageNum}`);
                         return page.getTextContent().then(textContent => {
-                            // Normalise text by removing excessive spaces
+                            // Normalises text by removing excessive spaces:
                             const text = textContent.items.map(item => item.str).join(' ').replace(/\s+/g, ' ').trim();
                             totalCharacters += text.length;
                             totalWords += text.split(/\s+/).length;
@@ -65,10 +76,10 @@
                                 const context = canvas.getContext('2d');
                                 canvas.height = viewport.height;
                                 canvas.width = viewport.width;
-                                
+
                                 // Render the page
                                 page.render({canvasContext: context, viewport: viewport}).promise.then(() => {
-                                    // Highlight the text and scroll to it
+                                    // Highlight the text and scroll to it:
                                     textContent.items.forEach(item => {
                                         const normalisedItemStr = item.str.replace(/\s+/g, ' ').trim();
                                         if (searchRegex.test(normalisedItemStr)) {
@@ -85,6 +96,7 @@
                                             window.scrollTo(scrollX, scrollY);
                                         }
                                     });
+                                    loadingIndicator.style.display = 'none';
                                 });
                                 return true; // Found the text, stop searching
                             }
@@ -95,17 +107,22 @@
 
                 const searchPages = async () => {
                     for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                        loadingIndicator.textContent = `Loading PDF... Page ${pageNum} of ${numPages}`;
                         const found = await findTextInPage(pageNum);
                         if (found) break;
                     }
                     console.log(`Total characters: ${totalCharacters}`);
                     console.log(`Estimated word count: ${totalWords}`);
                     console.log(`Average words per page: ${(totalWords / numPages).toFixed(2)}`);
+                    loadingIndicator.style.display = 'none';
                 };
 
                 searchPages();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                loadingIndicator.textContent = 'Error loading PDF.';
+            });
     </script>
 </body>
 </html>
