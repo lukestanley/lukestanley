@@ -31,7 +31,7 @@
 <body>
     <div id="loadingIndicator">Loading PDF...</div>
     <div id="pdfContainer"></div>
-    <script>
+            <script>
         const params = new URLSearchParams(window.location.search);
         const url = params.get('site');
         const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
@@ -163,6 +163,12 @@
                     }
                     loadingIndicator.style.display = 'none';
                     handleScroll(); // Initial call to load visible pages
+
+                    // Log total characters and word counts after all pages are processed
+                    console.log(`Total characters: ${totalCharacters}`);
+                    console.log(`Estimated word count: ${totalWords}`);
+                    console.log(`Average words per page: ${(totalWords / numPages).toFixed(2)}`);
+
                     if (targetPageNum !== null) {
                         // Ensure target page is rendered
                         await renderPage(targetPageNum);
@@ -205,10 +211,6 @@
                     pdfContainer.scrollLeft = scrollLeft - walkX;
                     pdfContainer.scrollTop = scrollTop - walkY;
                 });
-
-                console.log(`Total characters: ${totalCharacters}`);
-                console.log(`Estimated word count: ${totalWords}`);
-                console.log(`Average words per page: ${(totalWords / numPages).toFixed(2)}`);
             })
             .catch(error => {
                 console.error('Error:', error);
