@@ -1,0 +1,15 @@
+section_id	section_heading	best_chapter	video_start	video_end	score
+tidy:section:001	🗺️ Feeling of Computing demo transcript: 2D visual language topic map ZUI	Adding visual language: generated icons	00:05:24.413	00:06:14.406	0.528784
+tidy:section:002	👋 Introduction	Intro: good mental models, high-bandwidth visual cognition	00:00:00.838	00:00:52.468	0.775827
+tidy:section:003	🧩 Why the first map looks messy	Why the first map looks messy (high-D to 2D, overlap, force-directed kludge)	00:00:52.468	00:01:35.655	0.919817
+tidy:section:004	🧭 Finding non-overlapping positions without losing meaning	No-overlap layout that keeps semantic integrity	00:01:35.655	00:03:57.121	0.782313
+tidy:section:005	🎨 Adding visual language with generated icons	Adding visual language: generated icons	00:05:24.413	00:06:14.406	0.863688
+tidy:section:006	❓ Question: can the interface be used to express things?	Q (Ivy): can the interface express, not just reveal?	00:07:54.548	00:08:12.087	0.835739
+tidy:section:007	🔁 Projecting back and arranging meaning	Projecting back with UMAP: where would a new thing land?	00:08:12.087	00:10:12.774	0.906365
+tidy:section:008	🧮 Question from Marek “maf” Rogalski: can nodes occupy regions instead of points?	Q (maf): nodes as regions not points, Voronoi	00:11:35.105	00:12:55.193	0.775871
+tidy:section:009	🗺️ Regions, Voronoi maps, and hidden structure	Q (maf): nodes as regions not points, Voronoi	00:11:35.105	00:12:55.193	0.794425
+tidy:section:010	🌐 Question from Ivan Lugo: do meanings have shared shapes across languages?	Q (Ivan Lugo): shared shapes across languages	00:14:05.193	00:15:26.504	0.695255
+tidy:section:011	📐 MiniLM, salience, and Manifold Steering	MiniLM salience, then the Manifold Steering paper	00:15:26.504	00:16:57.935	0.854489
+tidy:section:012	🧱 Visual language and Robert Horn	Robert Horn and visual language; pandemic mess-maps	00:16:57.935	00:19:55.657	0.914903
+tidy:section:013	👏 Closing	Closing	00:19:55.657	00:20:17.599	0.867571
+tidy:section:014	💬 Relevant chat notes	Robert Horn and visual language; pandemic mess-maps	00:16:57.935	00:19:55.657	0.6465
